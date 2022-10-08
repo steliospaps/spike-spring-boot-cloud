@@ -1,0 +1,24 @@
+server:
+  port: 8082
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  application:
+    name: service-02
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:1111/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+    
+source-service:
+  ribbon:
+    DeploymentContextBasedVipAddresses: service01
+    NIWSServerListClassName: com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList
