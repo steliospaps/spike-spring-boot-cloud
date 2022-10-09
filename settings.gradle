@@ -1,2 +1,2 @@
 rootProject.name = 'basic-multiproject'
-include 'eureka-server', 'service01', 'service02'
+include 'eureka-server', 'service01', 'service02', 'gateway'

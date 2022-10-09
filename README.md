@@ -24,7 +24,7 @@ SERVER_PORT=8083 ./gradlew service01:bootRun
 ## docker compose
 
 * eureka server on http://localhost:1111
-* service02 http://localhost:8082
+* gateway http://localhost:8082/serviceTwo
 
 ```
 ./gradlew composeUp

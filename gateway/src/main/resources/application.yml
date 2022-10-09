@@ -1,0 +1,26 @@
+server:
+  port: 8081
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+spring:
+  application:
+    name: gateway
+  main:
+    web-application-type: reactive
+eureka:
+  client:
+    service-url:
+      defaultZone: ${DISCOVERY_SERVER:http://localhost:1111/eureka/}
+    register-with-eureka: false
+    fetch-registry: true
+
+app:
+  target-service:
+    url: lb://service-02
+    
+    
