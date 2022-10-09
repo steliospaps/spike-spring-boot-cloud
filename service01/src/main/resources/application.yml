@@ -11,9 +11,11 @@ spring:
   application:
     name: service-01
 
+app.task.id: "taskId"
+
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:1111/eureka/
+      defaultZone: ${DISCOVERY_SERVER:http://localhost:1111/eureka/}
     register-with-eureka: true
     fetch-registry: true
