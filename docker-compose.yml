@@ -1,28 +1,39 @@
 version: "3.9"  # optional since v1.27.0
 services:
-  service-registry:
+  service-registry-1:
     build: eureka-server
     expose:
     - 1111
     ports:
-    - "1111:1111"
+    - 1111:1111
+    environment:
+      DISCOVERY_SERVER: http://service-registry-2:1111/eureka/
+      eureka.instance.hostname: service-registry-1
+  service-registry-2:
+    build: eureka-server
+    expose:
+    - 1111
+    ports:
+    - 1112:1111
+    environment:
+      DISCOVERY_SERVER: http://service-registry-1:1111/eureka/
+      eureka.instance.hostname: service-registry-2
   svc-service01:
     build: service01
     deploy:
       mode: replicated
       replicas: 2
     environment:
-      #task slot https://stackoverflow.com/questions/56203272/docker-compose-scaling-with-unique-environment-variable
       app.task.id: "$${HOSTNAME}"
       SERVER_PORT: 8080
-      DISCOVERY_SERVER: http://service-registry:1111/eureka/
+      DISCOVERY_SERVER: http://service-registry-2:1111/eureka/,http://service-registry-1:1111/eureka/
     expose:
     - 8080
   svc-service02:
     build: service02
     environment:
       SERVER_PORT: 8080
-      DISCOVERY_SERVER: http://service-registry:1111/eureka/
+      DISCOVERY_SERVER: http://service-registry-2:1111/eureka/,http://service-registry-1:1111/eureka/
     expose:
     - 8080
     deploy:
@@ -32,7 +43,7 @@ services:
     build: gateway
     environment:
       SERVER_PORT: 8080
-      DISCOVERY_SERVER: http://service-registry:1111/eureka/
+      DISCOVERY_SERVER: http://service-registry-2:1111/eureka/,http://service-registry-1:1111/eureka/
     expose:
     - 8080
     ports: 
